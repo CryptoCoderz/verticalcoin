@@ -1819,16 +1819,16 @@ static CBlockIndex* pblockindexFBBHLast;
 CBlockIndex* FindBlockByHeight(int nHeight)
 {
     CBlockIndex *pblockindex;
-    if (nHeight < nBestHeight / 2)
-        pblockindex = pindexGenesisBlock;
+    if (nHeight < state->pindexBestKnownBlock->nHeight / 2)
+        pblockindex = chainparams.GenesisBlock();
     else
-        pblockindex = pindexBest;
+        pblockindex = state->pindexBestKnownBlock;
     if (pblockindexFBBHLast && abs(nHeight - pblockindex->nHeight) > abs(nHeight - pblockindexFBBHLast->nHeight))
         pblockindex = pblockindexFBBHLast;
     while (pblockindex->nHeight > nHeight)
         pblockindex = pblockindex->pprev;
     while (pblockindex->nHeight < nHeight)
-        pblockindex = pblockindex->pnext;
+        pblockindex = pnext;
     pblockindexFBBHLast = pblockindex;
     return pblockindex;
 }
