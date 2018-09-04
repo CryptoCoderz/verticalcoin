@@ -13,6 +13,8 @@
 int64_t CTransaction::nMinTxFee = 1000000; // 0.01 verticalcoin
 /** Fees smaller than this (in ztoshi) are considered zero fee (for relaying) */
 int64_t CTransaction::nMinRelayTxFee = 1000000; // 0.01 verticalcoin
+/** Default for -blockprioritysize, maximum space for zero/low-fee transactions **/
+static const unsigned int DEFAULT_BLOCK_PRIORITY_SIZE = 50000; // 50KB
 
 std::string COutPoint::ToString() const
 {

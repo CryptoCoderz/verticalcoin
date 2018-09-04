@@ -15,8 +15,6 @@
 static const int SERIALIZE_TRANSACTION_NO_WITNESS = 0x40000000;
 /** Default for witness scaling factor **/
 static const int WITNESS_SCALE_FACTOR = 4;
-/** Default for -blockprioritysize, maximum space for zero/low-fee transactions **/
-static const unsigned int DEFAULT_BLOCK_PRIORITY_SIZE = 50000; // 50KB
 /** Dust Soft Limit, allowed with additional fee per output */
 static const int64_t DUST_SOFT_LIMIT = 100000; // 0.001 VTL
 /** Defaults to yes, adaptively increase/decrease max/min/priority along with the re-calculated block size **/
