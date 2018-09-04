@@ -243,7 +243,7 @@ static const unsigned int DEFAULT_CHECKLEVEL = 3;
 static const uint64_t MIN_DISK_SPACE_FOR_BLOCK_FILES = 550 * 1024 * 1024;
 
 void indexGenesisBlock(const CChainParams &chainparams, const CBlockIndex* blockindex);
-CBlockIndex* FindBlockByHeight(int nHeight, const CChainParams &chainparams, const CBlockIndex* blockindex);
+CBlockIndex* FindBlockByHeight(int nHeight);
 
 /** Register with a network node to receive its signals */
 void RegisterNodeSignals(CNodeSignals& nodeSignals);

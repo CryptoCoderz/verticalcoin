@@ -1827,9 +1827,11 @@ void indexGenesisBlock(const CChainParams &chainparams, const CBlockIndex* block
     return;
 }
 
-CBlockIndex* FindBlockByHeight(int nHeight, const CChainParams &chainparams, const CBlockIndex* blockindex)
+CBlockIndex* FindBlockByHeight(int nHeight)
 {
     CBlockIndex *pblockindex;
+    const CChainParams &chainparams;
+    const CBlockIndex* blockindex;
     indexGenesisBlock(chainparams, blockindex);
     if (nHeight < state->pindexBestKnownBlock->nHeight / 2)
         pblockindex = pblockindexGenesis;
