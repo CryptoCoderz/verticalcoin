@@ -14,15 +14,6 @@ int64_t CTransaction::nMinTxFee = 1000000; // 0.01 verticalcoin
 /** Fees smaller than this (in ztoshi) are considered zero fee (for relaying) */
 int64_t CTransaction::nMinRelayTxFee = 1000000; // 0.01 verticalcoin
 
-/** Default for -blockprioritysize, maximum space for zero/low-fee transactions **/
-static const unsigned int DEFAULT_BLOCK_PRIORITY_SIZE = 50000; // 50KB
-/** Dust Soft Limit, allowed with additional fee per output */
-static const int64_t DUST_SOFT_LIMIT = 100000; // 0.001 VTL
-/** The maximum allowed size for a serialized block, in bytes (network rule) */
-static const unsigned int MAX_BLOCK_SIZE = 2000000;                      // 2000KB block hard limit
-/** Obsolete: maximum size for mined blocks */
-static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/4;         // 500KB  block soft limit
-
 std::string COutPoint::ToString() const
 {
     return strprintf("COutPoint(%s, %u)", hash.ToString(), n);
@@ -135,11 +126,11 @@ int64_t CTransaction::GetMinFee(unsigned int nBlockSize, bool fAllowFree, enum G
             nMinFee += nBaseFee;
         }
     // Raise the price as the block approaches full
-    if (nBlockSize != 1 && nNewBlockSize >= MAX_BLOCK_SIZE_GEN / 2)
+    if (nBlockSize != 1 && nNewBlockSize >= MEDIAN_BLOCK_SIZE_GEN / 2)
     {
-        if (nNewBlockSize >= MAX_BLOCK_SIZE_GEN)
+        if (nNewBlockSize >= MEDIAN_BLOCK_SIZE_GEN)
             return MAX_MONEY;
-        nMinFee *= MAX_BLOCK_SIZE_GEN / (MAX_BLOCK_SIZE_GEN - nNewBlockSize);
+        nMinFee *= MEDIAN_BLOCK_SIZE_GEN / (MEDIAN_BLOCK_SIZE_GEN - nNewBlockSize);
     }
 
     if (!MoneyRange(nMinFee))

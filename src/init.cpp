@@ -620,6 +620,7 @@ std::string HelpMessage(HelpMessageMode mode) {
                                strprintf(_("Set maximum BIP141 block weight (default: %d)"), DEFAULT_BLOCK_MAX_WEIGHT));
     strUsage += HelpMessageOpt("-blockmaxsize=<n>",
                                strprintf(_("Set maximum block size in bytes (default: %d)"), DEFAULT_BLOCK_MAX_SIZE));
+    strUsage += HelpMessageOpt("-scaleblocksizeoptions=<n>"    + strprintf(_("Adaptively scale block size options (max, min, priority) (default: %d)"), DEFAULT_SCALE_BLOCK_SIZE_OPTIONS) + "\n");
     strUsage += HelpMessageOpt("-blockprioritysize=<n>", strprintf(
             _("Set maximum size of high-priority/low-fee transactions in bytes (default: %d)"),
             DEFAULT_BLOCK_PRIORITY_SIZE));

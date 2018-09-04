@@ -9,6 +9,7 @@
 #include "addrman.h"
 #include "arith_uint256.h"
 #include "blockencodings.h"
+#include "blocksizecalculator.h"
 #include "chainparams.h"
 #include "checkpoints.h"
 #include "checkqueue.h"
@@ -2709,6 +2710,12 @@ bool ConnectBlock(const CBlock &block, CValidationState &state, CBlockIndex *pin
 
     set<uint256> txIds;
     bool fTestNet = Params().NetworkIDString() == CBaseChainParams::TESTNET;
+
+    if(pindexPrev->nHeight+1 > 999999)
+    {
+        MEDIAN_BLOCK_SIZE = BlockSizeCalculator::ComputeBlockSize(pindex);
+        MAX_BLOCK_SIGOPS_COST = MEDIAN_BLOCK_SIZE/5;
+    }
 
     for (unsigned int i = 0; i < block.vtx.size(); i++) {
         const CTransaction &tx = block.vtx[i];

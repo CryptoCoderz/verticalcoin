@@ -11,10 +11,29 @@
 #include "serialize.h"
 #include "uint256.h"
 
+/** Witness serialize limit **/
 static const int SERIALIZE_TRANSACTION_NO_WITNESS = 0x40000000;
-
+/** Default for witness scaling factor **/
 static const int WITNESS_SCALE_FACTOR = 4;
-/** An outpoint - a combination of a transaction hash and an index n into its vout */
+/** Default for -blockprioritysize, maximum space for zero/low-fee transactions **/
+static const unsigned int DEFAULT_BLOCK_PRIORITY_SIZE = 50000; // 50KB
+/** Dust Soft Limit, allowed with additional fee per output */
+static const int64_t DUST_SOFT_LIMIT = 100000; // 0.001 VTL
+/** Defaults to yes, adaptively increase/decrease max/min/priority along with the re-calculated block size **/
+static const unsigned int DEFAULT_SCALE_BLOCK_SIZE_OPTIONS = 1;
+/** The maximum allowed multiple for the computed block size */
+static const unsigned int MEDIAN_BLOCK_SIZE_INCREASE_MULTIPLE = 2;
+/** The number of blocks to consider in the computation of median block size */
+static const unsigned int NUM_BLOCKS_FOR_MEDIAN_BLOCK = 15;
+/** The threshold maximum allowed size for a serialized block, in bytes (network rule) */
+static unsigned int THRESHOLD_BLOCK_SIZE = 20000000;               // 20MB block threshold hard limit
+/** The median floating maximum allowed size for a serialized block, in bytes (network rule) */
+static unsigned int MEDIAN_BLOCK_SIZE = 2000000;                      // 2000KB block floating median limit
+/** The minimum allowed size for a serialized block, in bytes (network rule) */
+static const unsigned int MIN_BLOCK_SIZE = 1000000;                // 1000KB block minimum hard limit
+/** Obsolete: maximum size for mined blocks */
+static const unsigned int MEDIAN_BLOCK_SIZE_GEN = MEDIAN_BLOCK_SIZE/4;         // 500KB  block soft limit
+
 class COutPoint
 {
 public:
