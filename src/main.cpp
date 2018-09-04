@@ -1816,20 +1816,31 @@ bool GetAddressUnspent(uint160 addressHash, int type,
 //
 
 static CBlockIndex* pblockindexFBBHLast;
-CBlockIndex* FindBlockByHeight(int nHeight)
+static CBlockIndex* pblockindexGenesis;
+static CBlockIndex *pblockNext;
+
+void indexGenesisBlock(const CChainParams &chainparams, const CBlockIndex* blockindex)
 {
     CBlock &block = const_cast<CBlock &>(chainparams.GenesisBlock());
+    pblockindexGenesis = block;
+    pblockNext = chainActive.Next(blockindex);
+    return;
+}
+
+CBlockIndex* FindBlockByHeight(int nHeight, const CChainParams &chainparams, const CBlockIndex* blockindex)
+{
     CBlockIndex *pblockindex;
+    indexGenesisBlock(chainparams, blockindex);
     if (nHeight < state->pindexBestKnownBlock->nHeight / 2)
-        pblockindex = block;
+        pblockindex = pblockindexGenesis;
     else
         pblockindex = state->pindexBestKnownBlock;
     if (pblockindexFBBHLast && abs(nHeight - pblockindex->nHeight) > abs(nHeight - pblockindexFBBHLast->nHeight))
         pblockindex = pblockindexFBBHLast;
     while (pblockindex->nHeight > nHeight)
-        pblockindex = pblockindex->pprev;
+        pblockindex = pindex->pprev;
     while (pblockindex->nHeight < nHeight)
-        pblockindex = pnext;
+        pblockindex = pblockNext;
     pblockindexFBBHLast = pblockindex;
     return pblockindex;
 }
